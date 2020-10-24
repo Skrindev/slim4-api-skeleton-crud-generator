@@ -10,6 +10,8 @@ class CrudGeneratorService extends Command
 {
     private $entity;
 
+    private $operations;
+
     private $entityUpper;
 
     private $fields;
@@ -22,9 +24,10 @@ class CrudGeneratorService extends Command
 
     private $list1, $list2, $list3, $list4, $list5, $list6;
 
-    public function generateCrud($db, $entity)
+    public function generateCrud($db, $entity, $operations)
     {
         $this->entity = $entity;
+        $this->operations = $operations;
         $this->entityUpper = ucfirst($this->entity);
         $this->fields = $this->getEntityFields($db);
         $this->getRepositoryFunctions();

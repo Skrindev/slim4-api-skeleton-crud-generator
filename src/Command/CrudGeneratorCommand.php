@@ -43,7 +43,7 @@ class CrudGeneratorCommand extends Command
         $operation = strtoupper($input->getArgument('operation'));
         $generator = new CrudGeneratorService();
         $output->writeln('WAITING - Generate '  . $operation . ' enpoint');
-        $generator->generateCrud($db, $entity);
+        $generator->generateCrud($db, $entity, $operation);
         $output->writeln('OK - Generated endpoints for entity: ' . $entity);
     }
 }
