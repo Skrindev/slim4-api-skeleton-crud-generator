@@ -28,6 +28,11 @@ class CrudGeneratorCommand extends Command
                 'entity',
                 InputArgument::REQUIRED,
                 'Enter the name for the entity or table, to generate endpoints.'
+            )
+            ->addArgument(
+                'operation',
+                InputArgument::OPTIONAL,
+                'Enter the operation generate'
             );
     }
 
@@ -35,7 +40,9 @@ class CrudGeneratorCommand extends Command
     {
         $db = $this->container->get('db');
         $entity = $input->getArgument('entity');
+        $operation = strtoupper($input->getArgument('operation'));
         $generator = new CrudGeneratorService();
+        $output->writeln('WAITING - Generate '  . $operation . ' enpoint');
         $generator->generateCrud($db, $entity);
         $output->writeln('OK - Generated endpoints for entity: ' . $entity);
     }
