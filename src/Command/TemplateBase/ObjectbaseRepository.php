@@ -36,7 +36,7 @@ final class ObjectbaseRepository
 
     public function getAll(): array
     {
-        $query = 'SELECT * FROM `objectbase` ORDER BY `id`';
+        $query = 'SELECT * FROM `objectbase` LIMIT 20';
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
 
