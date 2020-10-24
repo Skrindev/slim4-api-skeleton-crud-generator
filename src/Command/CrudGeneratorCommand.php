@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class CrudGeneratorCommand extends Command
 {
     const COMMAND_VERSION = '0.14.0';
+    const OPERATIONS = ['get', 'post', 'delete'];
 
     public function __construct($app)
     {
@@ -30,9 +31,9 @@ class CrudGeneratorCommand extends Command
                 'Enter the name for the entity or table, to generate endpoints.'
             )
             ->addArgument(
-                'operation',
-                InputArgument::OPTIONAL,
-                'Enter the operation generate'
+                'operations',
+                InputArgument::IS_ARRAY,
+                'Enter the operations to generate'
             );
     }
 
@@ -40,10 +41,17 @@ class CrudGeneratorCommand extends Command
     {
         $db = $this->container->get('db');
         $entity = $input->getArgument('entity');
-        $operation = strtoupper($input->getArgument('operation'));
+        $operations = $input->getArgument('operations');
+
+        if (!(count($operations) > 0)) {
+          $operations = self::OPERATIONS;
+        }
+        
+        $output->writeln('Generating enpoints for ' . join(', ', $operations));
+        
         $generator = new CrudGeneratorService();
-        $output->writeln('WAITING - Generate '  . $operation . ' enpoint');
-        $generator->generateCrud($db, $entity, $operation);
+        $generator->generateCrud($db, $entity, $operations);
+        
         $output->writeln('OK - Generated endpoints for entity: ' . $entity);
     }
 }
